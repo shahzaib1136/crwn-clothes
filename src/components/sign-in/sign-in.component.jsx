@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { auth, createUserProfileDocument } from "../../firebase/firebase.utils";
+
 import { FormInput } from "../form-input/form-input.component";
 import { CustomButton } from "../custom-button/custom-button.component";
 import { signInWithGoogle } from "../../firebase/firebase.utils";
@@ -23,8 +25,18 @@ export const SignIn = () => {
     }));
   };
 
-  let handleSubmit = (event) => {
+  let handleSubmit = async (event) => {
     event.preventDefault();
+    if (!email || !password) {
+      alert("invalid fields");
+      return;
+    }
+    try {
+      await auth.signInWithEmailAndPassword(email, password);
+      setValue({ email: "", password: "" });
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="sign-in">
