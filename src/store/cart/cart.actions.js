@@ -4,6 +4,8 @@ export const ADD_ITEM = "[EXECUTE] ADD ITEM";
 
 export const REMOVE_ITEM = "[EXECUTE] REMOVE ITEM";
 
+export const CLEAR_CART_ITEM = "[EXECUTE] CLEAR CART ITEM";
+
 export const toggleCartHidden = () => {
   return (dispatch) => {
     dispatch({
@@ -25,6 +27,15 @@ export const addItem = (item) => {
   return (dispatch) => {
     dispatch({
       type: ADD_ITEM,
+      payload: item,
+    });
+  };
+};
+
+export const cleartItemFromCart = (item) => {
+  return (dispatch) => {
+    dispatch({
+      type: CLEAR_CART_ITEM,
       payload: item,
     });
   };
