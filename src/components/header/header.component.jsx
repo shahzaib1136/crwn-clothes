@@ -38,7 +38,7 @@ export const Header = () => {
           <b> Shop</b>
         </Link>
 
-        <Link className="option" to="/contact">
+        <Link className="option" to="/contactus">
           <b> Contact</b>
         </Link>
 

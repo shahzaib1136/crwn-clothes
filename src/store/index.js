@@ -1,6 +1,7 @@
 import * as reduxModule from "redux";
 import { applyMiddleware, compose, createStore } from "redux";
-import createReducer from "./reducers";
+import { persistedReducer, createReducer } from "./reducers";
+import { persistStore } from "redux-persist";
 import thunk from "redux-thunk";
 
 reduxModule.__DO_NOT_USE__ActionTypes.REPLACE = "@@redux/INIT";
@@ -16,8 +17,8 @@ const composeEnhancers =
 
 const enhancer = composeEnhancers(applyMiddleware(thunk));
 
-const store = createStore(createReducer(), enhancer);
-
+const store = createStore(persistedReducer, enhancer);
+const persistor = persistStore(store);
 store.asyncReducers = {};
 
 export const injectReducer = (key, reducer) => {
@@ -26,7 +27,8 @@ export const injectReducer = (key, reducer) => {
   }
   store.asyncReducers[key] = reducer;
   store.replaceReducer(createReducer(store.asyncReducers));
+
   return store;
 };
 
-export default store;
+export { store, persistor };

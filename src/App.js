@@ -9,6 +9,7 @@ import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { useDispatch, useSelector } from "react-redux";
 
 import { setCurrentUser } from "./store/user/user.actions";
+import { selectCurrentUser } from "./store/user/user.selecter";
 
 import "./App.css";
 
@@ -17,11 +18,12 @@ import { ShopePage } from "./pages/shop/shop.component";
 import { Header } from "./components/header/header.component";
 import { SignInAndSignUpPage } from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import { CheckoutPage } from "./pages/checkout/checkoutPage.component";
+import ContactUs from "./pages/contact/contactpage.component";
 
 function App() {
   const dispatch = useDispatch();
 
-  const { currentUser } = useSelector((state) => state.user);
+  const currentUser = useSelector((state) => selectCurrentUser(state));
 
   useEffect(() => {
     let unSubsubcribeFromAuth = auth.onAuthStateChanged(async (authUser) => {
@@ -45,6 +47,7 @@ function App() {
           <Route exact path="/" component={HomePage} />
           <Route path="/shop" component={ShopePage} />
           <Route path="/checkout" component={CheckoutPage} />
+          <Route path="/contactus" component={ContactUs} />
           <Route
             exact
             path="/signin"

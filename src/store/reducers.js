@@ -2,6 +2,14 @@ import { combineReducers } from "redux";
 import userReducer from "./user/user.reducer";
 import cartReducer from "./cart/cart.reducer";
 
+import storage from "redux-persist/lib/storage";
+import { persistReducer } from "redux-persist";
+
+const persistConfig = {
+  key: "root",
+  storage,
+};
+
 const createReducer = (asyncReducers) =>
   combineReducers({
     user: userReducer,
@@ -9,4 +17,6 @@ const createReducer = (asyncReducers) =>
     ...asyncReducers,
   });
 
-export default createReducer;
+const persistedReducer = persistReducer(persistConfig, createReducer());
+
+export { persistedReducer, createReducer };
