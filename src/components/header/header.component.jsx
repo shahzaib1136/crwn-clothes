@@ -1,20 +1,35 @@
-import React from "react";
+import React, { useRef } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+
 import { auth } from "../../firebase/firebase.utils";
 import { ReactComponent as Logo } from "../../assets/crown.svg";
 import { CartIcon } from "../cart-icon/cart-icon.component";
-import { CartDropdown } from "../cart-dropdown/cart-dropdown.component";
+import CartDropdown from "../cart-dropdown/cart-dropdown.component";
 
 import { useSelector } from "react-redux";
 
+import { selectCurrentUser } from "../../store/user/user.selecter";
+import { selectToggleItemCartHidden } from "../../store/cart/cart.selectors";
+
+import { useClickOutside } from "../../hooks/useClickOutside";
+
+import { hideCartOnOutsideClick } from "../../store/cart/cart.actions";
+
 import "./header.style.scss";
 export const Header = () => {
-  const currentUser = useSelector(({ user }) => user.currentUser);
+  const dispatch = useDispatch();
 
-  const toggleCartHidden = useSelector(({ cart }) => cart.hidden);
+  const dropdownRef = useRef(null);
+
+  const currentUser = useSelector((state) => selectCurrentUser(state));
+
+  const carthidden = useSelector((state) => selectToggleItemCartHidden(state));
+
+  useClickOutside(dropdownRef, () => dispatch(hideCartOnOutsideClick()));
 
   return (
-    <div className="header">
+    <div className="header" ref={dropdownRef}>
       <Link className="logo-container" to="/">
         <Logo className="logo" />
       </Link>
@@ -40,7 +55,7 @@ export const Header = () => {
         <CartIcon />
       </div>
 
-      {!toggleCartHidden && <CartDropdown />}
+      {!carthidden && <CartDropdown />}
     </div>
   );
 };

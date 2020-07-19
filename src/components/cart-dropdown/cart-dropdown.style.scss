@@ -17,6 +17,11 @@
     flex-direction: column;
     overflow-y: scroll;
   }
+  .empty-title {
+    font-size: 16px;
+    text-align: center;
+    margin-top: 25px;
+  }
 
   button {
     margin-top: auto;
